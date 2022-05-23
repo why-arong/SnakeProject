@@ -1,7 +1,7 @@
 #pragma once
 #include "Drawable.h"
 #include <queue>
-
+#define SNAKE_BODY '+'
 enum Direction
 {
     up,
@@ -15,13 +15,13 @@ public:
     SnakePiece() 
     {
         this->y = this->x = 0;
-        this->icon = '#';
+        this->icon = SNAKE_BODY;
     }
     SnakePiece(int y, int x) 
     {
         this->y = y;
         this->x = x;
-        this->icon = '#';
+        this->icon = SNAKE_BODY;
     }
 };
 
@@ -32,7 +32,7 @@ class Snake
 public:
     Snake()
     {
-        cur_direction = right;
+        cur_direction = down;
     }
 
     void addPiece(SnakePiece piece)
@@ -40,19 +40,53 @@ public:
         pieces.push(piece);
     }
 
-    void removePiece(SnakePiece piece)
+    void removePiece()
     {
         pieces.pop();
     }
 
     SnakePiece tail()
     {
-        return pieces.back();
+        return pieces.front();
     }
 
     SnakePiece head()
     {
-        return pieces.front();
+        return pieces.back();
     }
 
+    Direction getDirection()
+    {
+        return cur_direction;
+    }
+
+    void setDirection(Direction d)
+    {
+
+        cur_direction = d;
+    }
+    
+    SnakePiece nextHead()
+    {
+        int row = head().getY();
+        int col = head().getX();
+        switch (cur_direction)
+        {
+        case up:
+            row--;
+            break;
+        case down:
+            row++;
+            break;
+        case left:
+            col--;
+            break;
+        case right:
+            col++;
+            break;
+        default:
+            break;
+        }
+        return SnakePiece(row, col);
+    }
 };

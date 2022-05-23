@@ -18,9 +18,9 @@ public:
 		clear();
 		refresh();
 	}
-	void addBoarder()
+	void addboard_winer()
 	{
-		box(board, 0, 0);
+		box(board_win, 0, 0);
 	}
 	void add(Drawable drawable)
 	{
@@ -28,29 +28,29 @@ public:
 	}
 	void addAt(int y, int x, chtype ch) 
 	{
-		mvwaddch(board, y, x, ch);
+		mvwaddch(board_win, y, x, ch);
 	}
 	chtype getInput()
 	{
-		return wgetch(board);
+		return wgetch(board_win);
 	}
 
 	void getEmptyCoordinates(int& y, int& x)
 	{
-		while (mvwinch(board, y = rand() % height, x = rand() % width) != ' ');
+		while (mvwinch(board_win, y = rand() % height, x = rand() % width) != ' ');
 	}
 	void clear()
 	{
-		wclear(board);
-		addBoarder();
+		wclear(board_win);
+		addboard_winer();
 	}
 
 	void refresh() 
 	{
-		wrefresh(board);
+		wrefresh(board_win);
 	}
 private:
-	WINDOW* board;
+	WINDOW* board_win;
 	int height, width;
 	void construct(int height, int width)
 	{
@@ -58,6 +58,9 @@ private:
 		this->height = height;
 		this->width = width;
 		getmaxyx(stdscr, yMax, xMax);
-		board = newwin(height, width, (yMax / 2) - (height / 2), (xMax / 2) - (width / 2));
+		board_win = newwin(height, width, (yMax / 2) - (height / 2), (xMax / 2) - (width / 2));
+		//wtimeout(board_win, 500);
+
+		keypad(board_win, true);
 	}
 };

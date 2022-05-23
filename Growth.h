@@ -1,5 +1,6 @@
 #pragma once
 #include "Drawable.h"
+#define GROWTH_ITEM 'G'
 class Growth : public Drawable
 {
 public:
@@ -7,7 +8,7 @@ public:
     {
         this->y = y;
         this->x = x;
-        this->icon = 'G';
+        this->icon = GROWTH_ITEM;
     }
 private:
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Drawable.h"
+#define EMPTY_SPACE ' '
 class Empty : public Drawable
 {
 public:
@@ -7,7 +8,7 @@ public:
     {
         this->y = y;
         this->x = x;
-        this->icon = ' ';
+        this->icon = EMPTY_SPACE;
     }
 private:
 

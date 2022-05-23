@@ -7,12 +7,9 @@
 
 int main()
 {
-	
 	initscr();
 	refresh();
-
-	noecho(); // 입력해도 윈도우에 보이지 않음.
-
+	curs_set(0);
 	SnakeGame game(BOARDER_ROW, BOARDER_COL);
 
 	while (!game.isOver())
