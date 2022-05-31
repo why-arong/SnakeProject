@@ -22,8 +22,10 @@ public:
 	// 박스로 그림.
 	void addboard_win()
 	{
-		box(board_win, 0, 0);
+		wborder(board_win, '*', '*', '*', '*', '*', '*', '*', '*');
+		//box(board_win, 0, 0);
 	}
+	// 보드판에 그릴수 있는 객체를 그리기(객체는 그냥 x,y,icon 뽑아서 addAt에 넘기기 위함일 뿐)
 	void add(Drawable drawable)
 	{
 		addAt(drawable.getY(), drawable.getX(), drawable.getIcon());
@@ -32,6 +34,19 @@ public:
 	{
 		mvwaddch(board_win, y, x, ch);
 	}
+	
+	void makeMap1()
+	{
+		for (int i = 5; i < height - 5; i++) 
+		{
+			mvwaddch(board_win, i, width / 2, '(');
+		}
+		for (int i = 10; i < width - 10; i++) 
+		{
+			mvwaddch(board_win, height / 2, i, ')');
+		}
+	}
+
 	chtype getInput()
 	{
 		time_t time_last_input = Time::milliseconds();
