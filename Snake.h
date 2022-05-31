@@ -2,13 +2,15 @@
 #include "Drawable.h"
 #include <queue>
 #define SNAKE_BODY '+'
+#define SNAKE_HEAD '&'
 enum Direction
 {
-    up,
-    down,
-    left,
-    right
+    up, // 0
+    down, // 1
+    left, // 2
+    right // 3
 };
+// 스네이크 한부분도 그릴수 있는 것(좌표와 아이콘을 갖는)
 class SnakePiece : public Drawable 
 {
 public:
@@ -24,7 +26,7 @@ public:
         this->icon = SNAKE_BODY;
     }
 };
-
+// 스네이크는 큐로 표현됨.
 class Snake
 {
     std::queue<SnakePiece> pieces;
@@ -35,6 +37,13 @@ public:
         cur_direction = down;
     }
 
+    /*void changeHead(char ch)
+    {
+        if (!pieces.empty())
+        {
+            pieces.back().getIcon() = '0';
+        }
+    }*/
     void addPiece(SnakePiece piece)
     {
         pieces.push(piece);
