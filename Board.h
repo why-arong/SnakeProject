@@ -99,13 +99,13 @@ public:
 
 	chtype getInput()
 	{
-		//time_t time_last_input = Time::milliseconds();
+		time_t time_last_input = Time::milliseconds();
 
 		chtype input = wgetch(board_win);
 		chtype new_input = ERR; // curses에서 -1로 정의됨.
 
 		setWTimeout(0);
-		//while (time_last_input + timeout >= Time::milliseconds())
+		while (time_last_input + timeout >= Time::milliseconds())
 		{
 			new_input = wgetch(board_win);
 		}
