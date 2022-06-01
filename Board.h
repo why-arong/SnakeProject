@@ -4,7 +4,7 @@
 #include "Drawable.h"
 #include "Time.h"
 class Board {
-	
+
 public:
 	Board()
 	{
@@ -22,7 +22,7 @@ public:
 	// 박스로 그림.
 	void addboard_win()
 	{
-		wborder(board_win, '*', '*', '*', '*', '*', '*', '*', '*');
+		wborder(board_win, '1', '1', '1', '1', '3', '3', '3', '3');
 		//box(board_win, 0, 0);
 	}
 	// 보드판에 그릴수 있는 객체를 그리기(객체는 그냥 x,y,icon 뽑아서 addAt에 넘기기 위함일 뿐)
@@ -30,32 +30,82 @@ public:
 	{
 		addAt(drawable.getY(), drawable.getX(), drawable.getIcon());
 	}
-	void addAt(int y, int x, chtype ch) 
+	void addAt(int y, int x, chtype ch)
 	{
 		mvwaddch(board_win, y, x, ch);
 	}
-	
+
 	void makeMap1()
 	{
-		for (int i = 5; i < height - 5; i++) 
+		for (int i = 5; i < height - 5; i++)
 		{
-			mvwaddch(board_win, i, width / 2, '(');
+			mvwaddch(board_win, i, width / 2, '1');
 		}
-		for (int i = 10; i < width - 10; i++) 
+		for (int i = 10; i < width - 10; i++)
 		{
-			mvwaddch(board_win, height / 2, i, ')');
+			mvwaddch(board_win, height / 2, i, '1');
 		}
+		mvwaddch(board_win, height / 2, width / 2, '3');
+	}
+
+	void makeMap2()
+	{
+		for (int i = height / 4; i < height; i += 5)
+		{
+			for (int j = 2; j < 30; j++)
+			{
+				mvwaddch(board_win, i, j, '1');
+			}
+		}
+		for (int i = height - 3; i > 0; i -= 5)
+		{
+			for (int j = 37; j > 10; j--)
+			{
+
+				mvwaddch(board_win, i, j, '1');
+			}
+		}
+	}
+
+	void makeMap3()
+	{
+		for (int i = 5; i < 18; i++)
+		{
+			mvwaddch(board_win, 3, i, '1');
+			mvwaddch(board_win, 3, i + 18, '1');
+		}
+		for (int i = 5; i < 16; i++)
+		{
+			mvwaddch(board_win, 8, i, '1');
+			mvwaddch(board_win, 8, i + 18, '1');
+		}
+		for (int i = 3; i < 9; i++)
+		{
+			mvwaddch(board_win, i, 5, '1');
+			mvwaddch(board_win, i, 23, '1');
+		}
+		for (int i = 3; i < 16; i++)
+		{
+			mvwaddch(board_win, i, 17, '1');
+			mvwaddch(board_win, i, 35, '1');
+		}
+		mvwaddch(board_win, 3, 5, '3');
+		mvwaddch(board_win, 3, 23, '3');
+		mvwaddch(board_win, 8, 5, '3');
+		mvwaddch(board_win, 8, 23, '3');
+		mvwaddch(board_win, 3, 17, '3');
+		mvwaddch(board_win, 3, 35, '3');
 	}
 
 	chtype getInput()
 	{
-		time_t time_last_input = Time::milliseconds();
-		
+		//time_t time_last_input = Time::milliseconds();
+
 		chtype input = wgetch(board_win);
 		chtype new_input = ERR; // curses에서 -1로 정의됨.
-		
+
 		setWTimeout(0);
-		while (time_last_input + timeout >= Time::milliseconds())
+		//while (time_last_input + timeout >= Time::milliseconds())
 		{
 			new_input = wgetch(board_win);
 		}
@@ -90,7 +140,7 @@ public:
 		addboard_win();
 	}
 
-	void refresh() 
+	void refresh()
 	{
 		wrefresh(board_win);
 	}
