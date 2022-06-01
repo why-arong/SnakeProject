@@ -97,15 +97,108 @@ public:
 		mvwaddch(board_win, 3, 35, '3');
 	}
 
+	void makeMap4()
+	{
+		for (int i = 5; i < 18; i++)
+		{
+			mvwaddch(board_win, 3, i, '1');
+			mvwaddch(board_win, 3, i + 18, '1');
+		}
+		for (int i = 5; i < 16; i++)
+		{
+			mvwaddch(board_win, 8, i, '1');
+			mvwaddch(board_win, 8, i + 18, '1');
+		}
+		for (int i = 3; i < 9; i++)
+		{
+			mvwaddch(board_win, i, 5, '1');
+			mvwaddch(board_win, i, 23, '1');
+		}
+		for (int i = 3; i < 9; i++)
+		{
+			mvwaddch(board_win, i, 17, '1');
+			mvwaddch(board_win, i, 35, '1');
+		}
+		for (int i = 7; i < 12; i++)
+		{
+			mvwaddch(board_win, i, 19, '1');
+		}
+		for (int i = 10; i < 30; i++)
+		{
+			mvwaddch(board_win, 15, i, '1');
+		}
+		mvwaddch(board_win, 3, 5, '3');
+		mvwaddch(board_win, 3, 23, '3');
+		mvwaddch(board_win, 8, 5, '3');
+		mvwaddch(board_win, 8, 23, '3');
+		mvwaddch(board_win, 3, 17, '3');
+		mvwaddch(board_win, 3, 35, '3');
+	}
+	
+	void makeMap5()
+	{
+		for (int i = 1; i < 15; i += 3)
+		{
+			for (int j = 2; j < 5; j++)
+			{
+				mvwaddch(board_win, j + i - 1, 6 + 2 * i, '1');
+				mvwaddch(board_win, 2 + i, 3 + j + 2 * i, '1');
+				mvwaddch(board_win, 2 + i, 6 + 2 * i, '3');
+			}
+		}
+		for (int i = 1; i < 15; i += 3)
+		{
+			for (int j = 2; j < 5; j++)
+			{
+				mvwaddch(board_win, 19 - (j + i), 6 + 2 * i, '1');
+				mvwaddch(board_win, 19 - (3 + i), 3 + j + 2 * i, '1');
+				mvwaddch(board_win, 19 - (3 + i), 6 + 2 * i, '3');
+			}
+		}
+	}
+
+	void makeMap6()
+	{
+		for (int i = 1; i < 15; i += 3)
+		{
+			for (int j = 2; j < 5; j++)
+			{
+				mvwaddch(board_win, j + i - 1, 6 + 2 * i, '1');
+				mvwaddch(board_win, 2 + i, 3 + j + 2 * i, '1');
+				mvwaddch(board_win, 2 + i, 6 + 2 * i, '3');
+			}
+		}
+		for (int i = 1; i < 15; i += 3)
+		{
+			for (int j = 2; j < 5; j++)
+			{
+				mvwaddch(board_win, 19 - (j + i), 6 + 2 * i, '1');
+				mvwaddch(board_win, 19 - (3 + i), 3 + j + 2 * i, '1');
+				mvwaddch(board_win, 19 - (3 + i), 6 + 2 * i, '3');
+			}
+		}
+		for (int i = 11; i < 30; i++)
+		{
+			mvwaddch(board_win, 3, i, '1');
+			mvwaddch(board_win, 15, i, '1');
+		}
+		for (int i = 6; i < 13; i++)
+		{
+			mvwaddch(board_win, i, 8, '1');
+			mvwaddch(board_win, i, 32, '1');
+		}
+
+	}
+
 	chtype getInput()
 	{
-		//time_t time_last_input = Time::milliseconds();
+		time_t time_last_input = Time::milliseconds();
 
 		chtype input = wgetch(board_win);
 		chtype new_input = ERR; // curses에서 -1로 정의됨.
 
 		setWTimeout(0);
-		//while (time_last_input + timeout >= Time::milliseconds())
+		while (time_last_input + timeout >= Time::milliseconds())
 		{
 			new_input = wgetch(board_win);
 		}
