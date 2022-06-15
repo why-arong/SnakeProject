@@ -1,13 +1,14 @@
 #include <curses.h>
 #include "Board.h"
 #include "SnakeGame.h"
-#define BOARDER_DIM 20
+#define BOARDER_DIM 25
 #define BOARDER_ROW BOARDER_DIM
 #define BOARDER_COL BOARDER_DIM * 2
 
 int main()
 {
 	initscr();
+	resize_term(30, 110);
 	refresh();
 	curs_set(0);
 	SnakeGame game(BOARDER_ROW, BOARDER_COL);
