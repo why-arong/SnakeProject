@@ -1,8 +1,8 @@
 #pragma once
 #include "Drawable.h"
 #include <queue>
-#define SNAKE_BODY '+'
-#define SNAKE_HEAD '&'
+#define SNAKE_BODY 'B'
+#define SNAKE_HEAD 'H'
 enum Direction
 {
     up, // 0
@@ -14,16 +14,18 @@ enum Direction
 class SnakePiece : public Drawable 
 {
 public:
-    SnakePiece() 
+    SnakePiece() :Drawable(0, 0, SNAKE_BODY)
     {
-        this->y = this->x = 0;
-        this->icon = SNAKE_BODY;
     }
-    SnakePiece(int y, int x) 
+    SnakePiece(int y, int x, char icon = SNAKE_BODY)
     {
         this->y = y;
         this->x = x;
-        this->icon = SNAKE_BODY;
+        this->icon = icon;
+    }
+    void setIcon(char icon)
+    {
+        this->icon = icon;
     }
 };
 // 스네이크는 큐로 표현됨.
@@ -31,19 +33,17 @@ class Snake
 {
     std::queue<SnakePiece> pieces;
     Direction cur_direction;
+    int maxLength;
 public:
     Snake()
     {
         cur_direction = down;
     }
 
-    /*void changeHead(char ch)
+    int getSize()
     {
-        if (!pieces.empty())
-        {
-            pieces.back().getIcon() = '0';
-        }
-    }*/
+        return pieces.size();
+    }
     void addPiece(SnakePiece piece)
     {
         pieces.push(piece);
@@ -63,7 +63,7 @@ public:
     {
         return pieces.back();
     }
-
+    
     Direction getDirection()
     {
         return cur_direction;
@@ -96,6 +96,6 @@ public:
         default:
             break;
         }
-        return SnakePiece(row, col);
+        return SnakePiece(row, col, 'H');
     }
 };

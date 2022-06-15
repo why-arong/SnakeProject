@@ -4,12 +4,8 @@ class ScoreBoard
 {
     WINDOW* score_win;
 public:
-    ScoreBoard()
-    {
-
-    }
-
-    ScoreBoard(int width, int y, int x)
+    
+    ScoreBoard(int width=0, int y=0, int x=0)
     {
         score_win = newwin(1, width, y, x);
     }

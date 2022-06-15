@@ -10,6 +10,4 @@ public:
         this->x = x;
         this->icon = GROWTH_ITEM;
     }
-private:
-
 };
