@@ -55,7 +55,7 @@ public:
 		{
 			for (int j = 2; j < 40; j++)
 			{
-				mvwaddch(board_win, i - 2, j, '1');
+				mvwaddch(board_win, i - 2, j, ':');
 			}
 		}
 		for (int i = height - 3; i > 0; i -= 5)
@@ -63,7 +63,7 @@ public:
 			for (int j = 47; j > 10; j--)
 			{
 
-				mvwaddch(board_win, i, j, '1');
+				mvwaddch(board_win, i, j, ':');
 			}
 		}
 	}
@@ -72,68 +72,68 @@ public:
 	{
 		for (int i = 7; i < 22; i++)
 		{
-			mvwaddch(board_win, 3, i, '1');
-			mvwaddch(board_win, 3, i + 18, '1');
+			mvwaddch(board_win, 3, i, ':');
+			mvwaddch(board_win, 3, i + 18, ':');
 		}
 		for (int i = 7; i < 20; i++)
 		{
-			mvwaddch(board_win, 10, i, '1');
-			mvwaddch(board_win, 10, i + 18, '1');
+			mvwaddch(board_win, 10, i, ':');
+			mvwaddch(board_win, 10, i + 18, ':');
 		}
 		for (int i = 3; i < 10; i++)
 		{
-			mvwaddch(board_win, i, 7, '1');
-			mvwaddch(board_win, i, 25, '1');
+			mvwaddch(board_win, i, 7, ':');
+			mvwaddch(board_win, i, 25, ':');
 		}
 		for (int i = 3; i < 20; i++)
 		{
-			mvwaddch(board_win, i, 21, '1');
-			mvwaddch(board_win, i, 39, '1');
+			mvwaddch(board_win, i, 21, ':');
+			mvwaddch(board_win, i, 39, ':');
 		}
-		mvwaddch(board_win, 3, 7, '3');
-		mvwaddch(board_win, 3, 25, '3');
-		mvwaddch(board_win, 10, 7, '3');
-		mvwaddch(board_win, 10, 25, '3');
-		mvwaddch(board_win, 3, 21, '3');
-		mvwaddch(board_win, 3, 39, '3');
+		mvwaddch(board_win, 3, 7, '*');
+		mvwaddch(board_win, 3, 25, '*');
+		mvwaddch(board_win, 10, 7, '*');
+		mvwaddch(board_win, 10, 25, '*');
+		mvwaddch(board_win, 3, 21, '*');
+		mvwaddch(board_win, 3, 39, '*');
 	}
 
 	void makeMap4()
 	{
 		for (int i = 7; i < 22; i++)
 		{
-			mvwaddch(board_win, 3, i, '1');
-			mvwaddch(board_win, 3, i + 18, '1');
+			mvwaddch(board_win, 3, i, ':');
+			mvwaddch(board_win, 3, i + 18, ':');
 		}
 		for (int i = 7; i < 20; i++)
 		{
-			mvwaddch(board_win, 10, i, '1');
-			mvwaddch(board_win, 10, i + 18, '1');
+			mvwaddch(board_win, 10, i, ':');
+			mvwaddch(board_win, 10, i + 18, ':');
 		}
 		for (int i = 3; i < 10; i++)
 		{
-			mvwaddch(board_win, i, 7, '1');
-			mvwaddch(board_win, i, 25, '1');
+			mvwaddch(board_win, i, 7, ':');
+			mvwaddch(board_win, i, 25, ':');
 		}
 		for (int i = 3; i < 11; i++)
 		{
-			mvwaddch(board_win, i, 21, '1');
-			mvwaddch(board_win, i, 39, '1');
+			mvwaddch(board_win, i, 21, ':');
+			mvwaddch(board_win, i, 39, ':');
 		}
 		for (int i = 9; i < 15; i++)
 		{
-			mvwaddch(board_win, i, 23, '1');
+			mvwaddch(board_win, i, 23, ':');
 		}
 		for (int i = 10; i < 35; i++)
 		{
-			mvwaddch(board_win, 18, i, '1');
+			mvwaddch(board_win, 18, i, ':');
 		}
-		mvwaddch(board_win, 3, 7, '3');
-		mvwaddch(board_win, 3, 25, '3');
-		mvwaddch(board_win, 10, 7, '3');
-		mvwaddch(board_win, 10, 25, '3');
-		mvwaddch(board_win, 3, 21, '3');
-		mvwaddch(board_win, 3, 39, '3');
+		mvwaddch(board_win, 3, 7, '*');
+		mvwaddch(board_win, 3, 25, '*');
+		mvwaddch(board_win, 10, 7, '*');
+		mvwaddch(board_win, 10, 25, '*');
+		mvwaddch(board_win, 3, 21, '*');
+		mvwaddch(board_win, 3, 39, '*');
 	}
 
 	void makeMap5()
@@ -142,18 +142,18 @@ public:
 		{
 			for (int j = 2; j < 5; j++)
 			{
-				mvwaddch(board_win, j + i - 1, 4 + 2 * i, '1');
-				mvwaddch(board_win, 2 + i, 1 + j + 2 * i, '1');
-				mvwaddch(board_win, 2 + i, 4 + 2 * i, '3');
+				mvwaddch(board_win, j + i - 1, 4 + 2 * i, ':');
+				mvwaddch(board_win, 2 + i, 1 + j + 2 * i, ':');
+				mvwaddch(board_win, 2 + i, 4 + 2 * i, '*');
 			}
 		}
 		for (int i = 1; i < 20; i += 3)
 		{
 			for (int j = 2; j < 5; j++)
 			{
-				mvwaddch(board_win, 25 - (j + i), 6 + 2 * i, '1');
-				mvwaddch(board_win, 25 - (3 + i), 3 + j + 2 * i, '1');
-				mvwaddch(board_win, 25 - (3 + i), 6 + 2 * i, '3');
+				mvwaddch(board_win, 25 - (j + i), 6 + 2 * i, ':');
+				mvwaddch(board_win, 25 - (3 + i), 3 + j + 2 * i, ':');
+				mvwaddch(board_win, 25 - (3 + i), 6 + 2 * i, '*');
 			}
 		}
 	}
@@ -164,32 +164,32 @@ public:
 		{
 			for (int j = 2; j < 5; j++)
 			{
-				mvwaddch(board_win, j + i - 1, 4 + 2 * i, '1');
-				mvwaddch(board_win, 2 + i, 1 + j + 2 * i, '1');
-				mvwaddch(board_win, 2 + i, 4 + 2 * i, '3');
+				mvwaddch(board_win, j + i - 1, 4 + 2 * i, ':');
+				mvwaddch(board_win, 2 + i, 1 + j + 2 * i, ':');
+				mvwaddch(board_win, 2 + i, 4 + 2 * i, '*');
 			}
 		}
 		for (int i = 1; i < 20; i += 3)
 		{
 			for (int j = 2; j < 5; j++)
 			{
-				mvwaddch(board_win, 25 - (j + i), 6 + 2 * i, '1');
-				mvwaddch(board_win, 25 - (3 + i), 3 + j + 2 * i, '1');
-				mvwaddch(board_win, 25 - (3 + i), 6 + 2 * i, '3');
+				mvwaddch(board_win, 25 - (j + i), 6 + 2 * i, ':');
+				mvwaddch(board_win, 25 - (3 + i), 3 + j + 2 * i, ':');
+				mvwaddch(board_win, 25 - (3 + i), 6 + 2 * i, '*');
 			}
 		}
 		for (int i = 11; i < 40; i++)
 		{
-			mvwaddch(board_win, 21, i, '1');
+			mvwaddch(board_win, 21, i, ':');
 		}
 		for (int i = 9; i < 42; i++)
 		{
-			mvwaddch(board_win, 3, i, '1');
+			mvwaddch(board_win, 3, i, ':');
 		}
 		for (int i = 6; i < 19; i++)
 		{
-			mvwaddch(board_win, i, 7, '1');
-			mvwaddch(board_win, i, 43, '1');
+			mvwaddch(board_win, i, 7, ':');
+			mvwaddch(board_win, i, 43, ':');
 		}
 
 	}
