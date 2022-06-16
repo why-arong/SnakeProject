@@ -22,6 +22,7 @@ class SnakeGame
     Growth growth;
     Poison poison;
     bool game_over;
+    bool game_clear;
     TitleScreen title;
     Snake snake;
     ScoreBoard scoreboard;
@@ -32,6 +33,7 @@ class SnakeGame
     int r1, r2;
     int growth_count, poison_count, gate_count;
     int max_length=3, current_size=3;
+    int stage_num = 1;
 
     void handleSnake(SnakePiece next)
     {
@@ -125,7 +127,7 @@ class SnakeGame
         current_size++;
         max_length = max(max_length, current_size);
         scoreboard.updateSize(current_size, max_length);
-        missionboard.updateGoal(max_length, growth_count, poison_count, gate_count);
+        game_clear = missionboard.updateGoal(stage_num, max_length, growth_count, poison_count, gate_count);
     }
     void deletePoison()
     {
@@ -133,16 +135,19 @@ class SnakeGame
         scoreboard.updatePoison(poison_count);
         current_size--;
         scoreboard.updateSize(current_size, max_length);
-        missionboard.updateGoal(max_length, growth_count, poison_count, gate_count);
+        game_clear = missionboard.updateGoal(stage_num, max_length, growth_count, poison_count, gate_count);
     }
 public:
-    SnakeGame(int height, int width) :r1(0), r2(0), growth(0, 0), poison(0, 0),
+    SnakeGame(int height, int width, int stage) :r1(0), r2(0), growth(0, 0), poison(0, 0),
         growth_count(0), poison_count(0), gate_count(0)
     {
         // 타이틀 초기화, 유저가 정한 스피드(1틱을 몇초로 하느냐)설정
-        title = TitleScreen();
-        title.titleOn();
-        title.titleOff();
+        if (stage == 1)
+        {
+            title = TitleScreen();
+            title.titleOn();
+            title.titleOff();
+        }
         int speed = title.getMode();
 
         // main.cpp에서 정해진 높이 너비로 박스 하나 그림
@@ -151,25 +156,39 @@ public:
         int sb_col = board.getStartCol();
         scoreboard = ScoreBoard(width, sb_row, sb_col);
         missionboard = MissionBoard(width, sb_row, sb_col);
-        initialize();
+        initialize(stage);
     }
 
-    void initialize()
+    void initialize(int stage)
     {
+        game_over = false;
+        game_clear = false;
+        stage_num = stage;
         start = time(NULL);
         score = 0;
         scoreboard.initialize(current_size, max_length, growth_count, poison_count, gate_count);
-        missionboard.initialize(current_size, max_length, growth_count, poison_count, gate_count);
+        missionboard.initialize(stage, current_size, max_length, growth_count, poison_count, gate_count);
         board.initialize();
-
+        
 
         // 임시로 초기화 부분에 맵을 그림.
-        board.makeMap1();
-        // 맵 지우고 다시 map2를 그리는 예시
-        //board.clearMap1();
-        //board.makeMap2();
+        if (stage == 1)
+        {
+            board.makeMap1();
+        }
+        if (stage == 2)
+        {
+            board.makeMap2();
+        }
+        if (stage == 3)
+        {
+            board.makeMap3();
+        }
+        if (stage == 4)
+        {
+            board.makeMap4();
+        }
 
-        game_over = false;
         srand(time(NULL));
 
         // snake 초기화 (3개짜리)
@@ -232,7 +251,7 @@ public:
         handleSnake(snake.nextHead());
         time_t cur_time = time(NULL);
         double  diff_time = difftime(cur_time, start);
-        if (diff_time > 5)
+        if (diff_time > 10)
         {
             start = time(NULL);
             clearGrowth();
@@ -257,6 +276,12 @@ public:
     {
         return game_over;
     }
+
+    bool isClear()
+    {
+        return game_clear;
+    }
+
     int getScore()
     {
         return score;
