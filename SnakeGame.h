@@ -11,6 +11,7 @@
 #include "TitleScreen.h"
 #include "Snake.h"
 #include "ScoreBoard.h"
+#include "ClearScreen.h"
 #include "MissionBoard.h"
 #include "Poison.h"
 #include "Gate.h"
@@ -27,6 +28,7 @@ class SnakeGame
     bool game_over;
     bool game_clear;
     TitleScreen title;
+    ClearScreen clear_title;
     Snake snake;
     ScoreBoard scoreboard;
     MissionBoard missionboard;
@@ -316,10 +318,18 @@ public:
         growth_count(0), poison_count(0), gate_count(0)
     {
         // 타이틀 초기화, 유저가 정한 스피드(1틱을 몇초로 하느냐)설정
-
-        title = TitleScreen();
-        title.titleOn();
-        title.titleOff();
+        if (stage == 1)
+        {
+            title = TitleScreen();
+            title.titleOn();
+            title.titleOff();
+        }
+        else
+        {
+            clear_title = ClearScreen();
+            clear_title.titleOn();
+            clear_title.titleOff();
+        }
         int speed = title.getMode();
 
         // main.cpp에서 정해진 높이 너비로 박스 하나 그림
