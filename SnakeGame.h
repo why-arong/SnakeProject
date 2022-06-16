@@ -1,5 +1,6 @@
 #pragma once
 // Controller class
+
 #include <curses.h>
 #include <time.h>
 #include <stdlib.h>
@@ -8,11 +9,11 @@
 #include "Growth.h"
 #include "Empty.h"
 #include "TitleScreen.h"
-#include "ClearScreen.h"
 #include "Snake.h"
 #include "ScoreBoard.h"
 #include "MissionBoard.h"
 #include "Poison.h"
+#include "Gate.h"
 #include <vector>
 using namespace std;
 // 스네이크 게임의 전체적인 컨트롤을 맡는 클래스 
@@ -22,24 +23,60 @@ class SnakeGame
     Board board;
     Growth growth;
     Poison poison;
+    Gate* gate1, * gate2;
     bool game_over;
     bool game_clear;
     TitleScreen title;
-    ClearScreen clear_title;
     Snake snake;
     ScoreBoard scoreboard;
     MissionBoard missionboard;
     int score;
     time_t start;
     int growth_vec[3][2], poison_vec[3][2];
+    Gate* gate_vec[2];
     int r1, r2;
     int growth_count, poison_count, gate_count;
-    int max_length=3, current_size=3;
+    int max_length = 3, current_size = 3;
     int stage_num = 1;
 
     void handleSnake(SnakePiece next)
     {
-        switch (board.getCharAt(next.getY(), next.getX()))
+        int y = next.getY(); int x = next.getX();
+        // 
+        if (y == gate_vec[0]->getY() && x == gate_vec[0]->getX())
+        {
+            int emptyRow = snake.tail().getY();
+            int emptyCol = snake.tail().getX();
+            board.add(Empty(emptyRow, emptyCol));
+            snake.removePiece();
+            board.add(SnakePiece(snake.head().getY(), snake.head().getX(), '+'));
+
+            int exit_y = findExit(gate_vec[1]->getY(), gate_vec[1]->getX())[0];
+            int exit_x = findExit(gate_vec[1]->getY(), gate_vec[1]->getX())[1];
+            SnakePiece exit(exit_y, exit_x);
+            board.add(exit);
+            snake.addPiece(exit);
+            deleteGate();
+            return;
+        }
+        else if (y == gate_vec[1]->getY() && x == gate_vec[1]->getX())
+        {
+            int emptyRow = snake.tail().getY();
+            int emptyCol = snake.tail().getX();
+            board.add(Empty(emptyRow, emptyCol));
+            snake.removePiece();
+            board.add(SnakePiece(snake.head().getY(), snake.head().getX(), '+'));
+
+            int exit_y = findExit(gate_vec[0]->getY(), gate_vec[0]->getX())[0];
+            int exit_x = findExit(gate_vec[0]->getY(), gate_vec[0]->getX())[1];
+            SnakePiece exit(exit_y, exit_x);
+            board.add(exit);
+            snake.addPiece(exit);
+            deleteGate();
+
+            return;
+        }
+        switch (board.getCharAt(y, x))
         {
         case 'G':
             deleteGrowth();
@@ -52,6 +89,7 @@ class SnakeGame
             snake.removePiece();
             break;
         }
+
         case 'P':
         {
             deletePoison();
@@ -70,8 +108,7 @@ class SnakeGame
             game_over = true;
             break;
         }
-        if (snake.getSize())
-            board.add(SnakePiece(snake.head().getY(), snake.head().getX(), 'B'));
+        board.add(SnakePiece(snake.head().getY(), snake.head().getX(), '+'));
         board.add(next);
         snake.addPiece(next);
     }
@@ -122,6 +159,7 @@ class SnakeGame
             board.add(Empty(y, x));
         }
     }
+
     void deleteGrowth()
     {
         growth_count++;
@@ -139,23 +177,149 @@ class SnakeGame
         scoreboard.updateSize(current_size, max_length);
         game_clear = missionboard.updateGoal(stage_num, max_length, growth_count, poison_count, gate_count);
     }
+
+    void createGate()
+    {
+        int y, x;
+        board.getGateCoordinates(y, x);
+        gate1 = new Gate(y, x);
+        board.add(*gate1);
+        gate_vec[0] = gate1;
+
+        board.getGateCoordinates(y, x);
+        gate2 = new Gate(y, x);
+        gate_vec[1] = gate2;
+        board.add(*gate2);
+    }
+    void deleteGate()
+    {
+        gate_count++; // 진입
+        board.addAt(gate_vec[0]->getY(), gate_vec[0]->getX(), ':');
+        board.addAt(gate_vec[1]->getY(), gate_vec[1]->getX(), ':');
+        gate1 = NULL;
+        gate2 = NULL;
+
+        scoreboard.updateGate(gate_count);
+        game_clear = missionboard.updateGoal(stage_num, max_length, growth_count, poison_count, gate_count);
+    }
+    int* findExit(int y, int x)
+    {
+        int arr[] = { -1, -1 };
+        Direction cur_direction = snake.getDirection();
+        switch (cur_direction)
+        {
+        case up:
+            if (board.getCharAt(y - 1, x) != ' ')
+            {
+                if (board.getCharAt(y, x + 1) == ' ')
+                {
+                    x++;
+                    snake.setDirection(right);
+                    break;
+                }
+                else if (board.getCharAt(y, x - 1) == ' ')
+                {
+                    x--;
+                    snake.setDirection(left);
+                    break;
+                }
+                else if (board.getCharAt(y + 1, x) == ' ')
+                {
+                    y++;
+                    snake.setDirection(down);
+                    break;
+                }
+            }
+            y--;
+            break;
+        case down:
+            if (board.getCharAt(y + 1, x) != ' ')
+            {
+                if (board.getCharAt(y, x - 1) == ' ')
+                {
+                    x--;
+                    snake.setDirection(left);
+                    break;
+                }
+                else if (board.getCharAt(y, x + 1) == ' ')
+                {
+                    x++;
+                    snake.setDirection(right);
+                    break;
+                }
+                else if (board.getCharAt(y - 1, x) == ' ')
+                {
+                    y--;
+                    snake.setDirection(up);
+                    break;
+                }
+            }
+            y++;
+            break;
+        case left:
+            if (board.getCharAt(y, x - 1) != ' ')
+            {
+                if (board.getCharAt(y - 1, x) == ' ')
+                {
+                    y--;
+                    snake.setDirection(up);
+                    break;
+                }
+                else if (board.getCharAt(y + 1, x) == ' ')
+                {
+                    y++;
+                    snake.setDirection(down);
+                    break;
+                }
+                else if (board.getCharAt(y, x + 1) == ' ')
+                {
+                    x++;
+                    snake.setDirection(right);
+                    break;
+                }
+            }
+            x--;
+            break;
+        case right:
+            if (board.getCharAt(y, x + 1) != ' ')
+            {
+                if (board.getCharAt(y + 1, x) == ' ')
+                {
+                    y++;
+                    snake.setDirection(down);
+                    break;
+                }
+                else if (board.getCharAt(y - 1, x) == ' ')
+                {
+                    y--;
+                    snake.setDirection(up);
+                    break;
+                }
+                else if (board.getCharAt(y, x - 1) == ' ')
+                {
+                    x--;
+                    snake.setDirection(left);
+                    break;
+                }
+            }
+            x++;
+            break;
+        default:
+            break;
+        }
+        arr[0] = y; arr[1] = x;
+        return arr;
+    }
 public:
-    SnakeGame(int height, int width, int stage) :r1(0), r2(0), growth(0, 0), poison(0, 0),
+    SnakeGame(int height, int width, int stage) :r1(0), r2(0),
+        growth(0, 0), poison(0, 0), gate1(NULL), gate2(NULL),
         growth_count(0), poison_count(0), gate_count(0)
     {
         // 타이틀 초기화, 유저가 정한 스피드(1틱을 몇초로 하느냐)설정
-        if (stage == 1)
-        {
-            title = TitleScreen();
-            title.titleOn();
-            title.titleOff();
-        }
-        else
-        {
-            clear_title = ClearScreen();
-            clear_title.titleOn();
-            clear_title.titleOff();
-        }
+
+        title = TitleScreen();
+        title.titleOn();
+        title.titleOff();
         int speed = title.getMode();
 
         // main.cpp에서 정해진 높이 너비로 박스 하나 그림
@@ -177,9 +341,8 @@ public:
         scoreboard.initialize(current_size, max_length, growth_count, poison_count, gate_count);
         missionboard.initialize(stage, current_size, max_length, growth_count, poison_count, gate_count);
         board.initialize();
-        
 
-        // 임시로 초기화 부분에 맵을 그림.
+
         if (stage == 1) board.makeMap1();
         else if (stage == 2) board.makeMap2();
         else if (stage == 3) board.makeMap3();
@@ -187,22 +350,22 @@ public:
 
         srand(time(NULL));
 
-        // snake 초기화 (3개짜리)
         initSnake();
         createGrowth();
         createPoison();
+        createGate();
     }
     void initSnake()
     {
         snake.setDirection(down);
-        board.add(SnakePiece(11, 11, 'B'));
-        snake.addPiece(SnakePiece(11, 11, 'B'));
+        board.add(SnakePiece(11, 11));
+        snake.addPiece(SnakePiece(11, 11));
 
-        board.add(SnakePiece(12, 11, 'B'));
-        snake.addPiece(SnakePiece(12, 11, 'B'));
+        board.add(SnakePiece(12, 11));
+        snake.addPiece(SnakePiece(12, 11));
 
-        board.add(SnakePiece(13, 11, 'H'));
-        snake.addPiece(SnakePiece(13, 11, 'H'));
+        board.add(SnakePiece(13, 11, '@'));
+        snake.addPiece(SnakePiece(13, 11, '@'));
 
     }
     void processInput()
@@ -252,13 +415,10 @@ public:
             start = time(NULL);
             clearGrowth();
             createGrowth();
-
-
             clearPoison();
             createPoison();
-
         }
-
+        if (gate1 == NULL && current_size >= 4) createGate();
     }
 
     void redraw()
