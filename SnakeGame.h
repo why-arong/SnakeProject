@@ -8,6 +8,7 @@
 #include "Growth.h"
 #include "Empty.h"
 #include "TitleScreen.h"
+#include "ClearScreen.h"
 #include "Snake.h"
 #include "ScoreBoard.h"
 #include "MissionBoard.h"
@@ -24,6 +25,7 @@ class SnakeGame
     bool game_over;
     bool game_clear;
     TitleScreen title;
+    ClearScreen clear_title;
     Snake snake;
     ScoreBoard scoreboard;
     MissionBoard missionboard;
@@ -148,6 +150,12 @@ public:
             title.titleOn();
             title.titleOff();
         }
+        else
+        {
+            clear_title = ClearScreen();
+            clear_title.titleOn();
+            clear_title.titleOff();
+        }
         int speed = title.getMode();
 
         // main.cpp에서 정해진 높이 너비로 박스 하나 그림
@@ -172,22 +180,10 @@ public:
         
 
         // 임시로 초기화 부분에 맵을 그림.
-        if (stage == 1)
-        {
-            board.makeMap1();
-        }
-        if (stage == 2)
-        {
-            board.makeMap2();
-        }
-        if (stage == 3)
-        {
-            board.makeMap3();
-        }
-        if (stage == 4)
-        {
-            board.makeMap4();
-        }
+        if (stage == 1) board.makeMap1();
+        else if (stage == 2) board.makeMap2();
+        else if (stage == 3) board.makeMap3();
+        else if (stage == 4) board.makeMap4();
 
         srand(time(NULL));
 
