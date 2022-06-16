@@ -1,8 +1,8 @@
 #pragma once
 #include "Drawable.h"
 #include <queue>
-#define SNAKE_BODY 'B'
-#define SNAKE_HEAD 'H'
+#define SNAKE_BODY '+'
+#define SNAKE_HEAD '@'
 enum Direction
 {
     up, // 0
@@ -28,8 +28,7 @@ public:
         this->icon = icon;
     }
 };
-// 스네이크는 큐로 표현됨.
-class Snake
+class Snake 
 {
     std::queue<SnakePiece> pieces;
     Direction cur_direction;
@@ -96,6 +95,6 @@ public:
         default:
             break;
         }
-        return SnakePiece(row, col, 'H');
+        return SnakePiece(row, col, '@');
     }
 };

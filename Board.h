@@ -35,40 +35,9 @@ public:
 		mvwaddch(board_win, y, x, ch);
 	}
 
+	
+
 	void makeMap1()
-	{
-		for (int i = 3; i < height - 3; i++)
-		{
-			mvwaddch(board_win, i, width / 2, ':');
-		}
-		for (int i = 5; i < width - 5; i++)
-		{
-			if (i == 11 || i == width - 12) continue;
-			mvwaddch(board_win, height / 2, i, ':');
-		}
-		mvwaddch(board_win, height / 2, width / 2, '*');
-	}
-
-	void makeMap2()
-	{
-		for (int i = height / 4; i < height; i += 5)
-		{
-			for (int j = 2; j < 40; j++)
-			{
-				mvwaddch(board_win, i - 2, j, ':');
-			}
-		}
-		for (int i = height - 3; i > 0; i -= 5)
-		{
-			for (int j = 47; j > 10; j--)
-			{
-
-				mvwaddch(board_win, i, j, ':');
-			}
-		}
-	}
-
-	void makeMap3()
 	{
 		for (int i = 7; i < 22; i++)
 		{
@@ -98,7 +67,7 @@ public:
 		mvwaddch(board_win, 3, 39, '*');
 	}
 
-	void makeMap4()
+	void makeMap2()
 	{
 		for (int i = 7; i < 22; i++)
 		{
@@ -136,7 +105,7 @@ public:
 		mvwaddch(board_win, 3, 39, '*');
 	}
 
-	void makeMap5()
+	void makeMap3()
 	{
 		for (int i = 1; i < 20; i += 3)
 		{
@@ -158,7 +127,7 @@ public:
 		}
 	}
 
-	void makeMap6()
+	void makeMap4()
 	{
 		for (int i = 1; i < 20; i += 3)
 		{
