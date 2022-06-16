@@ -36,7 +36,7 @@ public:
         else  mvwprintw(mission_win, 9, 12, "( V )");
 
         if (max_length >= 4 + stage && growth_count >= 1 + stage &&
-            poison_count >= 1 + stage)
+            poison_count >= 1 + stage && gate_count >= 1 + stage)
         {
             return true;
         }
